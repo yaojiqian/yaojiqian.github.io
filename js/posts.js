@@ -1,1 +1,1 @@
-[{"title":"Hello, first blog","date":"2018.02.02","uri":"2018/02/02/Hello-first-blog/","excerpt":""},{"title":"Hello World","date":"2018.02.02","uri":"2018/02/02/hello-world/","excerpt":""}]
+[{"title":"Hello, first blog","date":"2018.02.02","uri":"2018/02/02/Hello-first-blog/","excerpt":""},{"title":"Hello World","date":"2018.02.02","uri":"2018/02/02/hello-world/","excerpt":""},{"title":"把PuTTY当作Proxy","date":"2018.02.03","uri":"2018/02/03/putty-as-proxy/","excerpt":""}]
