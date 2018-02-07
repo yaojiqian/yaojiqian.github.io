@@ -66,6 +66,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-add-sign-to-a-assemble" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/07/add-sign-to-a-assemble/" class="article-date">
+  <time datetime="2018-02-07T14:10:09.000Z" itemprop="datePublished">2018-02-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/net/">.net</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/07/add-sign-to-a-assemble/">给一个弱名.net assemble加上签名</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>  .net的solution中，所有的project都是签过名的，是强名assemble。但是，需要引用到外<br>部的已经编译好的assemble，这个assemble又是没有经过签名的，是一个弱名Assemble。<br>这样编译就会出错。</p>
+<p>解决办法：就是使用<strong>ildasm</strong>工具先把需要引用的add反编译成il（.net中间语言）。然后使用<strong>sn</strong>工具<br>生成一个签名文件，最后再用<strong>ilasm</strong>工具把签名文件和之前的il文件重新编译成一个assemble。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ildasm /all /out=test.il test.dll</span><br><span class="line">sn -k test.snk</span><br><span class="line">ilasm /dll /key=test.snk test.il</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cjdd66tww0005h0rkvsvbrbv6" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">.net</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-install-mysql-php" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/02/06/install-mysql-php/" class="article-date">
@@ -73,7 +123,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/html/">html</a>
+    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/LAMP/">LAMP</a>
   </div>
 
   </div>
@@ -110,11 +160,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cjdbrwyef0001cwrk2mhgsbv7" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cjdd66twk0000h0rki3ewz62n" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/">html</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LAMP/">LAMP</a></li></ul>
 
     </footer>
   </div>
@@ -161,7 +211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/03/putty-as-proxy/" data-id="cjdbrwyel0005cwrkhe6mzrl4" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/03/putty-as-proxy/" data-id="cjdd66twv0004h0rkjxn84qso" class="article-share-link">分享</a>
       
       
       
@@ -207,7 +257,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/02/Hello-first-blog/" data-id="cjdbrwyeh0002cwrkfkxn98dx" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/02/Hello-first-blog/" data-id="cjdd66twq0001h0rkvvncglqs" class="article-share-link">分享</a>
       
       
       
@@ -258,7 +308,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/02/hello-world/" data-id="cjdbrwyea0000cwrklrtg0m1g" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/02/hello-world/" data-id="cjdd66twx0006h0rkbvs9wk9r" class="article-share-link">分享</a>
       
       
       
@@ -300,7 +350,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/">technique</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/html/">html</a><span class="category-list-count">3</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/">technique</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/net/">.net</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/LAMP/">LAMP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/html/">html</a><span class="category-list-count">2</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -310,7 +360,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/html/" style="font-size: 25px;">html</a> <a href="/tags/test/" style="font-size: 14px;">test</a>
+      <a href="/tags/net/" style="font-size: 14px;">.net</a> <a href="/tags/LAMP/" style="font-size: 14px;">LAMP</a> <a href="/tags/html/" style="font-size: 14px;">html</a> <a href="/tags/test/" style="font-size: 14px;">test</a>
     </div>
   </div>
 
@@ -320,6 +370,10 @@
     <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/02/07/add-sign-to-a-assemble/">给一个弱名.net assemble加上签名</a>
+          </li>
         
           <li>
             <a href="/2018/02/06/install-mysql-php/">在Debian上安装mysql和php5</a>
@@ -346,7 +400,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
