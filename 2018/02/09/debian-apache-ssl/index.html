@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Debian下给apache2配置ssl | Yao Jiqian&#39;s Home</title>
+  <title>Debian下给apache2配置ssl | Yao Jiqian&#39;s Diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="开启apache的ssl模块1a2enmod ssl 这个命令可以开启apache的ssl模块。它实际上就相当于：12sudo ln -s /etc/apache2/mods-available/ssl.load /etc/apache2/mods-enabledsudo ln -s /etc/apache2/mods-available/ssl.conf /etc/apache2/mods-en">
 <meta name="keywords" content="LAMP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Debian下给apache2配置ssl">
 <meta property="og:url" content="http://yoursite.com/2018/02/09/debian-apache-ssl/index.html">
-<meta property="og:site_name" content="Yao Jiqian&#39;s Home">
+<meta property="og:site_name" content="Yao Jiqian&#39;s Diary">
 <meta property="og:description" content="开启apache的ssl模块1a2enmod ssl 这个命令可以开启apache的ssl模块。它实际上就相当于：12sudo ln -s /etc/apache2/mods-available/ssl.load /etc/apache2/mods-enabledsudo ln -s /etc/apache2/mods-available/ssl.conf /etc/apache2/mods-en">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-09T05:52:08.247Z">
+<meta property="og:updated_time" content="2018-02-09T06:00:51.916Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Debian下给apache2配置ssl">
 <meta name="twitter:description" content="开启apache的ssl模块1a2enmod ssl 这个命令可以开启apache的ssl模块。它实际上就相当于：12sudo ln -s /etc/apache2/mods-available/ssl.load /etc/apache2/mods-enabledsudo ln -s /etc/apache2/mods-available/ssl.conf /etc/apache2/mods-en">
   
-    <link rel="alternate" href="/atom.xml" title="Yao Jiqian&#39;s Home" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="Yao Jiqian&#39;s Diary" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -62,7 +62,7 @@
     </div>
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Yao Jiqian&#39;s Home</a>
+        <a href="/" id="logo">Yao Jiqian&#39;s Diary</a>
       </h1>
       
     </div>
@@ -106,12 +106,13 @@
 <h3 id="确认443端口是不是处于监听状态"><a href="#确认443端口是不是处于监听状态" class="headerlink" title="确认443端口是不是处于监听状态"></a>确认443端口是不是处于监听状态</h3><p>查看/etc/apache2/ports.conf确保有以下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;IfModule ssl_module&gt;</span><br><span class="line">        Listen 443</span><br><span class="line">&lt;/IfModule&gt;</span><br></pre></td></tr></table></figure></p>
 <p>如果没有，加上。最好在修改了conf文件后，调用一下apache2ctl configtest，检查一下配置是否正确。</p>
 <h3 id="重启apache"><a href="#重启apache" class="headerlink" title="重启apache"></a>重启apache</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service apache2 restart</span><br></pre></td></tr></table></figure>
-<p><strong><em>由于上面生成的证书的root不是CA，所以再用浏览器访问的时候，需要把这个站点证书加入到例外。</em></strong></p>
+<p>或者：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apache2ctl restart</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>由于上面生成的证书的root不是CA，所以在用浏览器访问的时候，需要把这个站点证书加入到例外。</em></strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cjdfim7jo000040rkdwbjd70b" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cjdfizptr0004workouh0ki5y" class="article-share-link">分享</a>
       
       
       
