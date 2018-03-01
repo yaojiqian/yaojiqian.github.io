@@ -5,18 +5,18 @@
   
   <title>apache2配置ftp server(mod_ftp) | Yao Jiqian&#39;s Diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="###apache2配置ftp server (mod_ftp) wget:Linux下的无界面下载工具，支持http, ftp等协议。 1、下载apache2的ftp源码。缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：  下载发行版本，然后解压出来 12wget http://www.apache.org/dist/httpd/mod_ftp/mod">
+  <meta name="description" content="apache2配置ftp server (mod_ftp)wget:Linux下的无界面下载工具，支持http, ftp等协议。 1、下载apache2的ftp源码。缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：  下载发行版本，然后解压出来 12wget http://www.apache.org/dist/httpd/mod_ftp/mod_ftp">
 <meta name="keywords" content="apache">
 <meta property="og:type" content="article">
 <meta property="og:title" content="apache2配置ftp server(mod_ftp)">
 <meta property="og:url" content="http://yoursite.com/2018/03/01/apache2-config-ftpd/index.html">
 <meta property="og:site_name" content="Yao Jiqian&#39;s Diary">
-<meta property="og:description" content="###apache2配置ftp server (mod_ftp) wget:Linux下的无界面下载工具，支持http, ftp等协议。 1、下载apache2的ftp源码。缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：  下载发行版本，然后解压出来 12wget http://www.apache.org/dist/httpd/mod_ftp/mod">
+<meta property="og:description" content="apache2配置ftp server (mod_ftp)wget:Linux下的无界面下载工具，支持http, ftp等协议。 1、下载apache2的ftp源码。缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：  下载发行版本，然后解压出来 12wget http://www.apache.org/dist/httpd/mod_ftp/mod_ftp">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-01T10:19:59.351Z">
+<meta property="og:updated_time" content="2018-03-01T14:59:54.288Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="apache2配置ftp server(mod_ftp)">
-<meta name="twitter:description" content="###apache2配置ftp server (mod_ftp) wget:Linux下的无界面下载工具，支持http, ftp等协议。 1、下载apache2的ftp源码。缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：  下载发行版本，然后解压出来 12wget http://www.apache.org/dist/httpd/mod_ftp/mod">
+<meta name="twitter:description" content="apache2配置ftp server (mod_ftp)wget:Linux下的无界面下载工具，支持http, ftp等协议。 1、下载apache2的ftp源码。缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：  下载发行版本，然后解压出来 12wget http://www.apache.org/dist/httpd/mod_ftp/mod_ftp">
   
     <link rel="alternate" href="/atom.xml" title="Yao Jiqian&#39;s Diary" type="application/atom+xml">
   
@@ -97,8 +97,7 @@
       
         <!-- Table of Contents -->
         
-        <p>###apache2配置ftp server (mod_ftp)</p>
-<p><strong><em>wget:Linux下的无界面下载工具，支持http, ftp等协议。</em></strong></p>
+        <h3 id="apache2配置ftp-server-mod-ftp"><a href="#apache2配置ftp-server-mod-ftp" class="headerlink" title="apache2配置ftp server (mod_ftp)"></a>apache2配置ftp server (mod_ftp)</h3><p><strong><em>wget:Linux下的无界面下载工具，支持http, ftp等协议。</em></strong></p>
 <p>1、下载apache2的ftp源码。<br>缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：</p>
 <ul>
 <li><p>下载发行版本，然后解压出来</p>
@@ -124,13 +123,11 @@
 <p>ftpd.conf配置文件中有一个bug需要修复。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apache2</span><br><span class="line">nano ./mods-available/ftpd.conf</span><br><span class="line">#### Bug Fix: Comment this line out for now</span><br><span class="line">#ErrorLog     &quot;var/log/apache2/ftp_error_log&quot;</span><br></pre></td></tr></table></figure></p>
 <p>重新配置ftp根目录。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apache2</span><br><span class="line">nano ./mods-available/ftpd.conf</span><br><span class="line">####</span><br><span class="line">#### I make this change to use the directory I just created</span><br><span class="line"># DocumentRoot &quot;/var/ftp&quot;</span><br><span class="line">mkdir /var/ftp</span><br><span class="line">touch /var/ftp/ftp-test.txt</span><br><span class="line">chown www-data:www-data -R /var/ftp</span><br></pre></td></tr></table></figure></p>
 <p>重启apache<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#check the configure file.</span><br><span class="line">apache2ctl configtest</span><br><span class="line">#restart apache2</span><br><span class="line">sudo apache2ctl restart</span><br></pre></td></tr></table></figure></p>
-<p>###由于mod_ftp文档不全，暂时没找到给ftp配置用户的方法。</p>
-<p>###google cloud的防火墙，缺省21端口是关闭的，所以需要配置google cloud的防火墙，打开21端口。</p>
-
+<h3 id="由于mod-ftp文档不全，暂时没找到给ftp配置用户的方法。"><a href="#由于mod-ftp文档不全，暂时没找到给ftp配置用户的方法。" class="headerlink" title="由于mod_ftp文档不全，暂时没找到给ftp配置用户的方法。"></a>由于mod_ftp文档不全，暂时没找到给ftp配置用户的方法。</h3><h3 id="google-cloud的防火墙，缺省21端口是关闭的，所以需要配置google-cloud的防火墙，打开21端口。"><a href="#google-cloud的防火墙，缺省21端口是关闭的，所以需要配置google-cloud的防火墙，打开21端口。" class="headerlink" title="google cloud的防火墙，缺省21端口是关闭的，所以需要配置google cloud的防火墙，打开21端口。"></a>google cloud的防火墙，缺省21端口是关闭的，所以需要配置google cloud的防火墙，打开21端口。</h3>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cje8czd6900006krkve7kbvfd" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cje8mzdp60005o0rkn9yq1ii3" class="article-share-link">分享</a>
       
       
       
@@ -215,42 +212,24 @@
 
   
     
-  
+    <div class="widget-wrap">
     
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title recent-posts">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2018/03/01/apache2-config-ftpd/">apache2配置ftp server(mod_ftp)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/17/pscp-copy-files-from-to-server/">使用pscp与linux server传输文件</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/09/debian-apache-ssl/">Debian下给apache2配置ssl</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/07/add-sign-to-a-assemble/">给一个弱名.net assembly加上签名</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/06/install-mysql-php/">在Debian上安装mysql和php5</a>
-          </li>
-        
-      </ul>
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#apache2配置ftp-server-mod-ftp"><span class="toc-number">1.</span> <span class="toc-text">apache2配置ftp server (mod_ftp)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#由于mod-ftp文档不全，暂时没找到给ftp配置用户的方法。"><span class="toc-number">2.</span> <span class="toc-text">由于mod_ftp文档不全，暂时没找到给ftp配置用户的方法。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#google-cloud的防火墙，缺省21端口是关闭的，所以需要配置google-cloud的防火墙，打开21端口。"><span class="toc-number">3.</span> <span class="toc-text">google cloud的防火墙，缺省21端口是关闭的，所以需要配置google cloud的防火墙，打开21端口。</span></a></li></ol>
+          </div>
+      </div>
     </div>
-  </div>
 
+  
+    
+
+  
+    
+  
+    
   
     
 

@@ -94,8 +94,7 @@
       
         <!-- Table of Contents -->
         
-        <p>###apache2配置ftp server (mod_ftp)</p>
-<p><strong><em>wget:Linux下的无界面下载工具，支持http, ftp等协议。</em></strong></p>
+        <h3 id="apache2配置ftp-server-mod-ftp"><a href="#apache2配置ftp-server-mod-ftp" class="headerlink" title="apache2配置ftp server (mod_ftp)"></a>apache2配置ftp server (mod_ftp)</h3><p><strong><em>wget:Linux下的无界面下载工具，支持http, ftp等协议。</em></strong></p>
 <p>1、下载apache2的ftp源码。<br>缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：</p>
 <ul>
 <li><p>下载发行版本，然后解压出来</p>
@@ -121,13 +120,11 @@
 <p>ftpd.conf配置文件中有一个bug需要修复。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apache2</span><br><span class="line">nano ./mods-available/ftpd.conf</span><br><span class="line">#### Bug Fix: Comment this line out for now</span><br><span class="line">#ErrorLog     &quot;var/log/apache2/ftp_error_log&quot;</span><br></pre></td></tr></table></figure></p>
 <p>重新配置ftp根目录。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apache2</span><br><span class="line">nano ./mods-available/ftpd.conf</span><br><span class="line">####</span><br><span class="line">#### I make this change to use the directory I just created</span><br><span class="line"># DocumentRoot &quot;/var/ftp&quot;</span><br><span class="line">mkdir /var/ftp</span><br><span class="line">touch /var/ftp/ftp-test.txt</span><br><span class="line">chown www-data:www-data -R /var/ftp</span><br></pre></td></tr></table></figure></p>
 <p>重启apache<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#check the configure file.</span><br><span class="line">apache2ctl configtest</span><br><span class="line">#restart apache2</span><br><span class="line">sudo apache2ctl restart</span><br></pre></td></tr></table></figure></p>
-<p>###由于mod_ftp文档不全，暂时没找到给ftp配置用户的方法。</p>
-<p>###google cloud的防火墙，缺省21端口是关闭的，所以需要配置google cloud的防火墙，打开21端口。</p>
-
+<h3 id="由于mod-ftp文档不全，暂时没找到给ftp配置用户的方法。"><a href="#由于mod-ftp文档不全，暂时没找到给ftp配置用户的方法。" class="headerlink" title="由于mod_ftp文档不全，暂时没找到给ftp配置用户的方法。"></a>由于mod_ftp文档不全，暂时没找到给ftp配置用户的方法。</h3><h3 id="google-cloud的防火墙，缺省21端口是关闭的，所以需要配置google-cloud的防火墙，打开21端口。"><a href="#google-cloud的防火墙，缺省21端口是关闭的，所以需要配置google-cloud的防火墙，打开21端口。" class="headerlink" title="google cloud的防火墙，缺省21端口是关闭的，所以需要配置google cloud的防火墙，打开21端口。"></a>google cloud的防火墙，缺省21端口是关闭的，所以需要配置google cloud的防火墙，打开21端口。</h3>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cje8czd6900006krkve7kbvfd" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cje8mzdp60005o0rkn9yq1ii3" class="article-share-link">分享</a>
       
       
       
@@ -175,7 +172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/17/pscp-copy-files-from-to-server/" data-id="cje8czd6t000e6krk2u7gbulj" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/17/pscp-copy-files-from-to-server/" data-id="cje8mzdp80006o0rk3spu1yoz" class="article-share-link">分享</a>
       
       
       
@@ -232,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cje8czd6i00046krkw16nckzr" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cje8mzdp50004o0rkkxnkosw3" class="article-share-link">分享</a>
       
       
       
@@ -282,7 +279,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cje8czd6e00016krky4zocokv" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cje8mzdoy0001o0rksea96iop" class="article-share-link">分享</a>
       
       
       
@@ -340,7 +337,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cje8czd6p000a6krku444cuxm" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cje8mzdpj000eo0rk6t8dk805" class="article-share-link">分享</a>
       
       
       
@@ -391,7 +388,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/03/putty-as-proxy/" data-id="cje8czd6r000b6krk2j2gvrks" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/03/putty-as-proxy/" data-id="cje8mzdpf000bo0rkkxa33kg8" class="article-share-link">分享</a>
       
       
       
@@ -437,7 +434,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/02/Hello-first-blog/" data-id="cje8czd6j00056krk1pmezife" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/02/Hello-first-blog/" data-id="cje8mzdot0000o0rk45wzb6le" class="article-share-link">分享</a>
       
       
       
@@ -488,7 +485,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/02/hello-world/" data-id="cje8czd6l00066krkau2abm8q" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/02/hello-world/" data-id="cje8mzdpc000ao0rkkwsz7mvy" class="article-share-link">分享</a>
       
       
       
