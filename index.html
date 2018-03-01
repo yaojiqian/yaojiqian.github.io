@@ -66,6 +66,81 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-apache2-config-ftpd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/01/apache2-config-ftpd/" class="article-date">
+  <time datetime="2018-03-01T08:57:52.000Z" itemprop="datePublished">2018-03-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/LAMP/">LAMP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/01/apache2-config-ftpd/">apache2配置ftp server(mod_ftp)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>###apache2配置ftp server (mod_ftp)</p>
+<p><strong><em>wget:Linux下的无界面下载工具，支持http, ftp等协议。</em></strong></p>
+<p>####1、下载apache2的ftp源码。####<br>缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：</p>
+<ul>
+<li><p>下载发行版本，然后解压出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://www.apache.org/dist/httpd/mod_ftp/mod_ftp-0.9.6-beta.tar.gz</span><br><span class="line">tar --extract --file mod_ftp-0.9.6-beta.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从SVN server上同步最新版本</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn checkout http://svn.apache.org/repos/asf/httpd/mod_ftp/trunk/ mod_ftp</span><br></pre></td></tr></table></figure>
+<p>2、编译mod_ftp</p>
+<ul>
+<li><p>编译apache的模块，需要apache开发工具。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apache2-dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>切换到mod_ftp源码目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure.apxs</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><em>在编译过程中由于conn_rec结构的remote_ip改成了client_ip，所以ftp_commands.c、ftp_data_connection.c、ftp_message.c、ftp_limitlogin.c这几个文件需要修改。</em></strong></p>
+<p>3、安装mod_ftp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make install</span><br></pre></td></tr></table></figure></p>
+<p>4、配置mod_ftp<br>修改apache2.conf，注释到<strong><em>Include etc/apache2/extra/ftpd.conf</em></strong>，不在这里load ftp组件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo su -i</span><br><span class="line">cd /etc/apache2</span><br><span class="line">vi apache2.conf</span><br><span class="line">####</span><br><span class="line">#### Place a comment in front of or remove these 3 lines</span><br><span class="line">#LoadModule ftp_module usr/lib/apache2/modules/mod_ftp.so</span><br><span class="line">#</span><br><span class="line"># Example mod_ftp configuration</span><br><span class="line">#Include etc/apache2/extra/ftpd.conf</span><br></pre></td></tr></table></figure></p>
+<p>增加/etc/apache2/mods-available/ftpd.load配置文件。enable ftp组件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;LoadModule ftp_module /usr/lib/apache2/modules/mod_ftp.so&quot; &gt; /etc/apache2/mods-available/ftpd.load</span><br><span class="line">mv ./extra/ftpd.conf ./mods-available/</span><br><span class="line">rmdir ./extra</span><br><span class="line">a2enmod ftpd</span><br></pre></td></tr></table></figure></p>
+<p>ftpd.conf配置文件中有一个bug需要修复。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apache2</span><br><span class="line">nano ./mods-available/ftpd.conf</span><br><span class="line">#### Bug Fix: Comment this line out for now</span><br><span class="line">#ErrorLog     &quot;var/log/apache2/ftp_error_log&quot;</span><br></pre></td></tr></table></figure></p>
+<p>重新配置ftp根目录。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apache2</span><br><span class="line">nano ./mods-available/ftpd.conf</span><br><span class="line">####</span><br><span class="line">#### I make this change to use the directory I just created</span><br><span class="line"># DocumentRoot &quot;/var/ftp&quot;</span><br><span class="line">mkdir /var/ftp</span><br><span class="line">touch /var/ftp/ftp-test.txt</span><br><span class="line">chown www-data:www-data -R /var/ftp</span><br></pre></td></tr></table></figure></p>
+<p>重启apache<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#check the configure file.</span><br><span class="line">apache2ctl configtest</span><br><span class="line">#restart apache2</span><br><span class="line">sudo apache2ctl restart</span><br></pre></td></tr></table></figure></p>
+<p>###由于mod_ftp文档不全，暂时没找到给ftp配置用户的方法。</p>
+<p>###google cloud的防火墙，缺省21端口是关闭的，所以需要配置google cloud的防火墙，打开21端口。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cje8cs2ts0001corkgnqoxgak" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apache/">apache</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-pscp-copy-files-from-to-server" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/02/17/pscp-copy-files-from-to-server/" class="article-date">
@@ -100,7 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/17/pscp-copy-files-from-to-server/" data-id="cjdrjvxs1000lxgrk6swb6q41" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/17/pscp-copy-files-from-to-server/" data-id="cje8cs2vi000ocorklvamxr7z" class="article-share-link">分享</a>
       
       
       
@@ -157,7 +232,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cjdrjvxr60000xgrk04129epr" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cje8cs2to0000corklsx8dvyq" class="article-share-link">分享</a>
       
       
       
@@ -207,7 +282,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cjdrjvxrg0005xgrkbelk4div" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cje8cs2vd000lcorkmqedu4hp" class="article-share-link">分享</a>
       
       
       
@@ -265,7 +340,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cjdrjvxs3000mxgrk9pvx2ge1" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cje8cs2vl000qcorkos8mkgmn" class="article-share-link">分享</a>
       
       
       
@@ -316,7 +391,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/03/putty-as-proxy/" data-id="cjdrjvxs4000oxgrkhddtqgnd" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/03/putty-as-proxy/" data-id="cje8cs2vn000rcorks6art1yj" class="article-share-link">分享</a>
       
       
       
@@ -362,7 +437,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/02/Hello-first-blog/" data-id="cjdrjvxra0001xgrkal01igxs" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/02/Hello-first-blog/" data-id="cje8cs2tw0004corkmni6swmq" class="article-share-link">分享</a>
       
       
       
@@ -413,7 +488,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/02/hello-world/" data-id="cjdrjvxre0004xgrk8euslkvl" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/02/hello-world/" data-id="cje8cs2vg000mcork3c368d5a" class="article-share-link">分享</a>
       
       
       
@@ -455,7 +530,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/">technique</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/net/">.net</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/LAMP/">LAMP</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/html/">html</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/linux/">linux</a><span class="category-list-count">2</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/">technique</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/net/">.net</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/LAMP/">LAMP</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/html/">html</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/linux/">linux</a><span class="category-list-count">2</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -465,7 +540,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/net/" style="font-size: 14px;">.net</a> <a href="/tags/LAMP/" style="font-size: 25px;">LAMP</a> <a href="/tags/cmd/" style="font-size: 25px;">cmd</a> <a href="/tags/test/" style="font-size: 14px;">test</a>
+      <a href="/tags/net/" style="font-size: 14px;">.net</a> <a href="/tags/LAMP/" style="font-size: 25px;">LAMP</a> <a href="/tags/apache/" style="font-size: 14px;">apache</a> <a href="/tags/cmd/" style="font-size: 25px;">cmd</a> <a href="/tags/test/" style="font-size: 14px;">test</a>
     </div>
   </div>
 
@@ -475,6 +550,10 @@
     <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/03/01/apache2-config-ftpd/">apache2配置ftp server(mod_ftp)</a>
+          </li>
         
           <li>
             <a href="/2018/02/17/pscp-copy-files-from-to-server/">使用pscp与linux server传输文件</a>
@@ -492,10 +571,6 @@
             <a href="/2018/02/06/install-mysql-php/">在Debian上安装mysql和php5</a>
           </li>
         
-          <li>
-            <a href="/2018/02/03/putty-as-proxy/">把PuTTY当作Proxy</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -505,7 +580,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">7</span></li></ul>
     </div>
   </div>
 

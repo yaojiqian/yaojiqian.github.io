@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>apache2配置ftp server(mod_ftp) | Yao Jiqian&#39;s Diary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="###apache2配置ftp server (mod_ftp) wget:Linux下的无界面下载工具，支持http, ftp等协议。 ####1、下载apache2的ftp源码。####缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：  下载发行版本，然后解压出来 12wget http://www.apache.org/dist/httpd/mod">
+<meta name="keywords" content="apache">
+<meta property="og:type" content="article">
+<meta property="og:title" content="apache2配置ftp server(mod_ftp)">
+<meta property="og:url" content="http://yoursite.com/2018/03/01/apache2-config-ftpd/index.html">
+<meta property="og:site_name" content="Yao Jiqian&#39;s Diary">
+<meta property="og:description" content="###apache2配置ftp server (mod_ftp) wget:Linux下的无界面下载工具，支持http, ftp等协议。 ####1、下载apache2的ftp源码。####缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：  下载发行版本，然后解压出来 12wget http://www.apache.org/dist/httpd/mod">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-01T10:14:07.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="apache2配置ftp server(mod_ftp)">
+<meta name="twitter:description" content="###apache2配置ftp server (mod_ftp) wget:Linux下的无界面下载工具，支持http, ftp等协议。 ####1、下载apache2的ftp源码。####缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：  下载发行版本，然后解压出来 12wget http://www.apache.org/dist/httpd/mod">
+  
+    <link rel="alternate" href="/atom.xml" title="Yao Jiqian&#39;s Diary" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yao Jiqian&#39;s Diary</a>
+      </h1>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-apache2-config-ftpd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/01/apache2-config-ftpd/" class="article-date">
+  <time datetime="2018-03-01T08:57:52.000Z" itemprop="datePublished">2018-03-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/LAMP/">LAMP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      apache2配置ftp server(mod_ftp)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>###apache2配置ftp server (mod_ftp)</p>
+<p><strong><em>wget:Linux下的无界面下载工具，支持http, ftp等协议。</em></strong></p>
+<p>####1、下载apache2的ftp源码。####<br>缺省apache2不包含mod_ftp，所以需要源代码，然后自己编译；取得源代码有两种方式：</p>
+<ul>
+<li><p>下载发行版本，然后解压出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://www.apache.org/dist/httpd/mod_ftp/mod_ftp-0.9.6-beta.tar.gz</span><br><span class="line">tar --extract --file mod_ftp-0.9.6-beta.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从SVN server上同步最新版本</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn checkout http://svn.apache.org/repos/asf/httpd/mod_ftp/trunk/ mod_ftp</span><br></pre></td></tr></table></figure>
+<p>2、编译mod_ftp</p>
+<ul>
+<li><p>编译apache的模块，需要apache开发工具。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apache2-dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>切换到mod_ftp源码目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure.apxs</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong><em>在编译过程中由于conn_rec结构的remote_ip改成了client_ip，所以ftp_commands.c、ftp_data_connection.c、ftp_message.c、ftp_limitlogin.c这几个文件需要修改。</em></strong></p>
+<p>3、安装mod_ftp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make install</span><br></pre></td></tr></table></figure></p>
+<p>4、配置mod_ftp<br>修改apache2.conf，注释到<strong><em>Include etc/apache2/extra/ftpd.conf</em></strong>，不在这里load ftp组件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo su -i</span><br><span class="line">cd /etc/apache2</span><br><span class="line">vi apache2.conf</span><br><span class="line">####</span><br><span class="line">#### Place a comment in front of or remove these 3 lines</span><br><span class="line">#LoadModule ftp_module usr/lib/apache2/modules/mod_ftp.so</span><br><span class="line">#</span><br><span class="line"># Example mod_ftp configuration</span><br><span class="line">#Include etc/apache2/extra/ftpd.conf</span><br></pre></td></tr></table></figure></p>
+<p>增加/etc/apache2/mods-available/ftpd.load配置文件。enable ftp组件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;LoadModule ftp_module /usr/lib/apache2/modules/mod_ftp.so&quot; &gt; /etc/apache2/mods-available/ftpd.load</span><br><span class="line">mv ./extra/ftpd.conf ./mods-available/</span><br><span class="line">rmdir ./extra</span><br><span class="line">a2enmod ftpd</span><br></pre></td></tr></table></figure></p>
+<p>ftpd.conf配置文件中有一个bug需要修复。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apache2</span><br><span class="line">nano ./mods-available/ftpd.conf</span><br><span class="line">#### Bug Fix: Comment this line out for now</span><br><span class="line">#ErrorLog     &quot;var/log/apache2/ftp_error_log&quot;</span><br></pre></td></tr></table></figure></p>
+<p>重新配置ftp根目录。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apache2</span><br><span class="line">nano ./mods-available/ftpd.conf</span><br><span class="line">####</span><br><span class="line">#### I make this change to use the directory I just created</span><br><span class="line"># DocumentRoot &quot;/var/ftp&quot;</span><br><span class="line">mkdir /var/ftp</span><br><span class="line">touch /var/ftp/ftp-test.txt</span><br><span class="line">chown www-data:www-data -R /var/ftp</span><br></pre></td></tr></table></figure></p>
+<p>重启apache<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#check the configure file.</span><br><span class="line">apache2ctl configtest</span><br><span class="line">#restart apache2</span><br><span class="line">sudo apache2ctl restart</span><br></pre></td></tr></table></figure></p>
+<p>###由于mod_ftp文档不全，暂时没找到给ftp配置用户的方法。</p>
+<p>###google cloud的防火墙，缺省21端口是关闭的，所以需要配置google cloud的防火墙，打开21端口。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cje8cs2ts0001corkgnqoxgak" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apache/">apache</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/17/pscp-copy-files-from-to-server/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">使用pscp与linux server传输文件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/01/apache2-config-ftpd/">apache2配置ftp server(mod_ftp)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/17/pscp-copy-files-from-to-server/">使用pscp与linux server传输文件</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/09/debian-apache-ssl/">Debian下给apache2配置ssl</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/07/add-sign-to-a-assemble/">给一个弱名.net assembly加上签名</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/06/install-mysql-php/">在Debian上安装mysql和php5</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 Yao Jiqian&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;yaojiqian@hotmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>
