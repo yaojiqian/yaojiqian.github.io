@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>重置mysql的登录密码 | Yao Jiqian&#39;s Diary</title>
+  <title>安装tomcat | Yao Jiqian&#39;s Diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="mysql的用户名和密码保存在数据库mysql的user表里面；要重置密码，可以更新这个表的相关内容。其中关键字段如下：    Field Type Null Key     Host char(60) NO PRI   User char(16) NO PRI   Password char(41) NO    具体方法：  KILL掉系统里的MySQL进程 1killall -TERM mys">
+  <meta name="description" content="参考：Linux tomcat安装详解(http://blog.csdn.net/lcyaiym/article/details/76696192)  下载tomcat 1wget http://mirrors.sorengard.com/apache/tomcat/tomcat-9/v9.0.5/bin/apache-tomcat-9.0.5.tar.gz  安装 123456789101112">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="重置mysql的登录密码">
-<meta property="og:url" content="http://yoursite.com/2018/03/04/mysql-reset-password/index.html">
+<meta property="og:title" content="安装tomcat">
+<meta property="og:url" content="http://yoursite.com/2018/03/04/install-tomcat/index.html">
 <meta property="og:site_name" content="Yao Jiqian&#39;s Diary">
-<meta property="og:description" content="mysql的用户名和密码保存在数据库mysql的user表里面；要重置密码，可以更新这个表的相关内容。其中关键字段如下：    Field Type Null Key     Host char(60) NO PRI   User char(16) NO PRI   Password char(41) NO    具体方法：  KILL掉系统里的MySQL进程 1killall -TERM mys">
+<meta property="og:description" content="参考：Linux tomcat安装详解(http://blog.csdn.net/lcyaiym/article/details/76696192)  下载tomcat 1wget http://mirrors.sorengard.com/apache/tomcat/tomcat-9/v9.0.5/bin/apache-tomcat-9.0.5.tar.gz  安装 123456789101112">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-04T11:51:52.160Z">
+<meta property="og:updated_time" content="2018-03-04T13:15:00.087Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="重置mysql的登录密码">
-<meta name="twitter:description" content="mysql的用户名和密码保存在数据库mysql的user表里面；要重置密码，可以更新这个表的相关内容。其中关键字段如下：    Field Type Null Key     Host char(60) NO PRI   User char(16) NO PRI   Password char(41) NO    具体方法：  KILL掉系统里的MySQL进程 1killall -TERM mys">
+<meta name="twitter:title" content="安装tomcat">
+<meta name="twitter:description" content="参考：Linux tomcat安装详解(http://blog.csdn.net/lcyaiym/article/details/76696192)  下载tomcat 1wget http://mirrors.sorengard.com/apache/tomcat/tomcat-9/v9.0.5/bin/apache-tomcat-9.0.5.tar.gz  安装 123456789101112">
   
     <link rel="alternate" href="/atom.xml" title="Yao Jiqian&#39;s Diary" type="application/atom+xml">
   
@@ -69,10 +69,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-mysql-reset-password" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-install-tomcat" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/03/04/mysql-reset-password/" class="article-date">
-  <time datetime="2018-03-04T11:31:22.000Z" itemprop="datePublished">2018-03-04</time>
+    <a href="/2018/03/04/install-tomcat/" class="article-date">
+  <time datetime="2018-03-04T12:51:58.000Z" itemprop="datePublished">2018-03-04</time>
 </a>
     
   <div class="article-category">
@@ -87,7 +87,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      重置mysql的登录密码
+      安装tomcat
     </h1>
   
 
@@ -97,57 +97,20 @@
       
         <!-- Table of Contents -->
         
-        <p>mysql的用户名和密码保存在数据库mysql的user表里面；要重置密码，可以更新这个表的相关内容。<br>其中关键字段如下：</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Null</th>
-<th>Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Host</td>
-<td>char(60)</td>
-<td>NO</td>
-<td>PRI</td>
-</tr>
-<tr>
-<td>User</td>
-<td>char(16)</td>
-<td>NO</td>
-<td>PRI</td>
-</tr>
-<tr>
-<td>Password</td>
-<td>char(41)</td>
-<td>NO</td>
-</tr>
-</tbody>
-</table>
-<p>具体方法：</p>
+        <p>参考：Linux tomcat安装详解(<a href="http://blog.csdn.net/lcyaiym/article/details/76696192" target="_blank" rel="noopener">http://blog.csdn.net/lcyaiym/article/details/76696192</a>)</p>
 <ol>
-<li><p>KILL掉系统里的MySQL进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">killall -TERM mysqld</span><br></pre></td></tr></table></figure>
+<li><p>下载tomcat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.sorengard.com/apache/tomcat/tomcat-9/v9.0.5/bin/apache-tomcat-9.0.5.tar.gz</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>用以下命令启动MySQL，以不检查权限的方式启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqld --skip-grant-tables &amp;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>然后用空密码方式使用root用户登录 MySQL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改root用户的密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update mysql.user set password=PASSWORD(&apos;新密码&apos;) where User=&apos;root&apos;;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">mysql&gt; quit</span><br></pre></td></tr></table></figure>
+<li><p>安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/tomcat</span><br><span class="line">cd /usr/tomcat</span><br><span class="line">tar -zxvf apache-tomcat-9.0.5.tar.gz</span><br><span class="line"></span><br><span class="line">ln -s /usr/tomcat/apache-tomcat-9.0.5/ /usr/apache-tomcat</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cd /usr/apache-tomcat/bin</span><br><span class="line">./startup.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">./shutdown.sh</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p><strong><em> 需要替换’新密码’为想要的密码；</em></strong><br>flush privileges刷新权限；<br>重启。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/04/mysql-reset-password/" data-id="cjectk3eb000exkrkdk6bw009" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/04/install-tomcat/" data-id="cjectk3e6000axkrko9z8rium" class="article-share-link">分享</a>
       
       
       
@@ -201,19 +164,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/03/04/install-tomcat/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          安装tomcat
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/03/04/linux-java-install/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/03/04/mysql-reset-password/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">linux环境下安装java</div>
+      <div class="article-nav-title">重置mysql的登录密码</div>
     </a>
   
 </nav>
