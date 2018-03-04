@@ -66,6 +66,68 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-linux-java-install" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/04/linux-java-install/" class="article-date">
+  <time datetime="2018-03-04T05:03:23.000Z" itemprop="datePublished">2018-03-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/04/linux-java-install/">linux环境下安装java</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h3 id="下载JDK"><a href="#下载JDK" class="headerlink" title="下载JDK"></a>下载JDK</h3><p>Java SDK包可以在<a href="http://www.oracle.com/technetwork/java/javase/downloads下面找到最新版本。可以直接在浏览器里面下载，可以使用wget下载。" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads下面找到最新版本。可以直接在浏览器里面下载，可以使用wget下载。</a></p>
+<p>我用的Linux是没有Windows界面的，所以使用wget下载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/jdk-8u161-linux-x64.tar.gz?AuthParam=1520130654_f620999d2b44e18cfa9b8301915df574</span><br></pre></td></tr></table></figure></p>
+<p><strong> 这里下载下来的文件名多了“?AuthParam=1520130654_f620999d2b44e18cfa9b8301915df574”，需要重新命名； </strong></p>
+<h3 id="切换到root"><a href="#切换到root" class="headerlink" title="切换到root"></a>切换到root</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -i</span><br></pre></td></tr></table></figure>
+<h3 id="为Java建立目录"><a href="#为Java建立目录" class="headerlink" title="为Java建立目录"></a>为Java建立目录</h3><p>一般把Java的目录放在/usr/java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /usr</span><br><span class="line">mkdir java</span><br><span class="line"></span><br><span class="line">cd java</span><br></pre></td></tr></table></figure></p>
+<h3 id="将jdk-8u161-linux-x64-tar-gz拷贝到java目录"><a href="#将jdk-8u161-linux-x64-tar-gz拷贝到java目录" class="headerlink" title="将jdk-8u161-linux-x64.tar.gz拷贝到java目录"></a>将jdk-8u161-linux-x64.tar.gz拷贝到java目录</h3><p>为了方便，同时建立一个链接。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar --extract --file jdk-8u161-linux-x64.tar.gz</span><br><span class="line">ln -s /usr/java/jdk1.8.0_161/ /usr/jdk</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p>编辑/etc/profile配置文件，增加Java的环境变量；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br><span class="line">//在文件的最后增加</span><br><span class="line"># JAVA Environment config</span><br><span class="line">JAVA_HOME=/usr/jdk</span><br><span class="line">CLASSPATH=$JAVA_HOME/lib/</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin</span><br><span class="line">export PATH JAVA_HOME CLASSPATH</span><br></pre></td></tr></table></figure></p>
+<h3 id="导出环境变量"><a href="#导出环境变量" class="headerlink" title="导出环境变量"></a>导出环境变量</h3><p>有里面种方法：</p>
+<ul>
+<li><p>使用source命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启机器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shutdown -r now</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/04/linux-java-install/" data-id="cjecdl53h000b0srkuipqomp1" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/setup/">setup</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-apache2-config-ftpd" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/03/01/apache2-config-ftpd/" class="article-date">
@@ -124,7 +186,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cje8mzdp60005o0rkn9yq1ii3" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cjecdl53c00060srkspmj5azz" class="article-share-link">分享</a>
       
       
       
@@ -172,7 +234,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/17/pscp-copy-files-from-to-server/" data-id="cje8mzdp80006o0rk3spu1yoz" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/17/pscp-copy-files-from-to-server/" data-id="cjecdl53l000f0srkfwtfo5gg" class="article-share-link">分享</a>
       
       
       
@@ -229,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cje8mzdp50004o0rkkxnkosw3" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cjecdl53400010srk8btk97vw" class="article-share-link">分享</a>
       
       
       
@@ -279,7 +341,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cje8mzdoy0001o0rksea96iop" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cjecdl53900050srksg4cq69t" class="article-share-link">分享</a>
       
       
       
@@ -337,7 +399,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cje8mzdpj000eo0rk6t8dk805" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cjecdl53g000a0srk60r3zsmp" class="article-share-link">分享</a>
       
       
       
@@ -388,7 +450,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/03/putty-as-proxy/" data-id="cje8mzdpf000bo0rkkxa33kg8" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/03/putty-as-proxy/" data-id="cjecdl54z00180srkj0xfg0ac" class="article-share-link">分享</a>
       
       
       
@@ -434,7 +496,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/02/Hello-first-blog/" data-id="cje8mzdot0000o0rk45wzb6le" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/02/Hello-first-blog/" data-id="cjecdl52z00000srk99864ylt" class="article-share-link">分享</a>
       
       
       
@@ -485,7 +547,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/02/hello-world/" data-id="cje8mzdpc000ao0rkkwsz7mvy" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/02/hello-world/" data-id="cjecdl53800040srkzzeh7b1c" class="article-share-link">分享</a>
       
       
       
@@ -527,7 +589,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/">technique</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/net/">.net</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/LAMP/">LAMP</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/html/">html</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/linux/">linux</a><span class="category-list-count">2</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/">technique</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/net/">.net</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/LAMP/">LAMP</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/html/">html</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/linux/">linux</a><span class="category-list-count">2</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -537,7 +599,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/net/" style="font-size: 14px;">.net</a> <a href="/tags/LAMP/" style="font-size: 25px;">LAMP</a> <a href="/tags/apache/" style="font-size: 14px;">apache</a> <a href="/tags/cmd/" style="font-size: 25px;">cmd</a> <a href="/tags/test/" style="font-size: 14px;">test</a>
+      <a href="/tags/net/" style="font-size: 14px;">.net</a> <a href="/tags/LAMP/" style="font-size: 25px;">LAMP</a> <a href="/tags/apache/" style="font-size: 14px;">apache</a> <a href="/tags/cmd/" style="font-size: 25px;">cmd</a> <a href="/tags/setup/" style="font-size: 14px;">setup</a> <a href="/tags/test/" style="font-size: 14px;">test</a>
     </div>
   </div>
 
@@ -547,6 +609,10 @@
     <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/03/04/linux-java-install/">linux环境下安装java</a>
+          </li>
         
           <li>
             <a href="/2018/03/01/apache2-config-ftpd/">apache2配置ftp server(mod_ftp)</a>
@@ -564,10 +630,6 @@
             <a href="/2018/02/07/add-sign-to-a-assemble/">给一个弱名.net assembly加上签名</a>
           </li>
         
-          <li>
-            <a href="/2018/02/06/install-mysql-php/">在Debian上安装mysql和php5</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -577,7 +639,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">7</span></li></ul>
     </div>
   </div>
 
