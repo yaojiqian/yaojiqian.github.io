@@ -98,12 +98,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Property)]</span><br><span class="line">class SimpleDescriptionAttribute : Attribute</span><br><span class="line">&#123;</span><br><span class="line">    private string description;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The default constructor.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public SimpleDescriptionAttribute() : base() &#123; &#125;</span><br><span class="line"></span><br><span class="line">    public SimpleDescriptionAttribute(string desc)</span><br><span class="line">    &#123;</span><br><span class="line">        description = desc;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public string Descripton</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return description;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面的代码定义了一个简单的Attribute，有一个属性Description。这个Attribute可以用在Class、Method和Property上，下面的代码展示了如何使用这个Attribute：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Type type = typeof(Program);</span><br><span class="line"></span><br><span class="line">// Iterate through all the methods of the class.</span><br><span class="line">foreach (MethodInfo mInfo in type.GetMethods())</span><br><span class="line">&#123;</span><br><span class="line">    // Iterate through all the Attributes for each method.</span><br><span class="line">    foreach (Attribute attr in Attribute.GetCustomAttributes(mInfo))</span><br><span class="line">    &#123;</span><br><span class="line">        // Check for the AnimalType attribute.</span><br><span class="line">        if (attr.GetType() == typeof(SimpleDescriptionAttribute))</span><br><span class="line">            Console.WriteLine( String.Format(</span><br><span class="line">                &quot;Method &#123;0&#125; has a &#123;1&#125; attribute.&quot;,</span><br><span class="line">                mInfo.Name, ((SimpleDescriptionAttribute)attr).Descripton));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foreach (PropertyInfo pInfo in type.GetProperties())</span><br><span class="line">&#123;</span><br><span class="line">    foreach (Attribute attr in Attribute.GetCustomAttributes(pInfo))</span><br><span class="line">    &#123;</span><br><span class="line">        //</span><br><span class="line">        if (attr.GetType() == typeof(SimpleDescriptionAttribute))</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(String.Format(&quot;Property &#123;0&#125; has a &#123;1&#125; attribute.&quot;,</span><br><span class="line">                pInfo.Name, ((SimpleDescriptionAttribute)attr).Descripton));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>参考：<a href="https://msdn.microsoft.com/en-us/library/e8kc3626(d=hv.2,v=vs.110" target="_blank" rel="noopener">MSDN</a>.aspx)</p>
+<p>参考：<a href="https://msdn.microsoft.com/en-us/library/e8kc3626(d=hv.2,v=vs.110\" target="_blank" rel="noopener">MSDN</a>.aspx)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/07/dotnet-custom-attribute/" data-id="cjego8taw0004esrkphytg7gv" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/07/dotnet-custom-attribute/" data-id="cjegobjgv000aasrkmqnj66dg" class="article-share-link">分享</a>
       
       
       
@@ -160,7 +160,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/06/config-tomcat-manager/" data-id="cjego8tao0001esrkhkt1pdc3" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/06/config-tomcat-manager/" data-id="cjegobjgr0006asrkqh9et77u" class="article-share-link">分享</a>
       
       
       
@@ -215,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/04/install-tomcat/" data-id="cjego8tb7000eesrku4fm2ycf" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/04/install-tomcat/" data-id="cjegobjie0017asrk8ncoemdz" class="article-share-link">分享</a>
       
       
       
@@ -307,7 +307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/04/mysql-reset-password/" data-id="cjego8tbh000pesrks9r7trrw" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/04/mysql-reset-password/" data-id="cjegobjih0019asrkvb4b99fd" class="article-share-link">分享</a>
       
       
       
@@ -369,7 +369,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/04/linux-java-install/" data-id="cjego8tbf000lesrk4ma4igqx" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/04/linux-java-install/" data-id="cjegobjic0016asrky0tm9qv6" class="article-share-link">分享</a>
       
       
       
@@ -441,7 +441,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cjego8tay0005esrkcsgi84a5" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cjegobjgk0001asrkfly8fq3u" class="article-share-link">分享</a>
       
       
       
@@ -489,7 +489,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/17/pscp-copy-files-from-to-server/" data-id="cjego8tbd000jesrku5vmwe1u" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/17/pscp-copy-files-from-to-server/" data-id="cjegobjij001casrke4lp9cb7" class="article-share-link">分享</a>
       
       
       
@@ -546,7 +546,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cjego8tb3000aesrkj4xuii4t" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cjegobjgq0005asrklcpyz71t" class="article-share-link">分享</a>
       
       
       
@@ -596,7 +596,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cjego8tb5000besrk1dd8pdn5" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cjegobjgo0004asrkb7c2bcr5" class="article-share-link">分享</a>
       
       
       
@@ -654,7 +654,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cjego8taz0006esrkbbdn1iut" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cjegobjil001easrk57rf4clp" class="article-share-link">分享</a>
       
       
       
