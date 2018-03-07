@@ -66,6 +66,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-putty-as-proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/03/putty-as-proxy/" class="article-date">
+  <time datetime="2018-02-03T13:43:34.000Z" itemprop="datePublished">2018-02-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/linux/">linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/03/putty-as-proxy/">把PuTTY当作Proxy</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <pre><code>今天注册了Google Cloud，有了一台Google Cloud的虚拟机。这台机器是在墙外面的，而且可以用PuTTY直接登陆上去。
+</code></pre><p>本来想用这台机器直接作为一个代理，装了Apache2，研究了一下发现用Apache做代理还是要花一番功夫的。<br>    手册上看，要启用Apache2的mod_proxy，需要先配置mod_ssl，mod_ssl又依赖openssl。也涉及到公钥/私钥的配置，<br>想一想感觉比较麻烦。PuTTY我已经配置好了公钥/私钥。网上找了一下PuTTY支持SSH远程登录的主机可以实现socks5代理<br>服务器的功能，而且配置也还方便。缺点就是不能保存。</p>
+<pre><code>下面是配置PuTTy。打开PuTTy,点击“Session”（打开默认就是此界面），输入要链接的地址、端口。
+</code></pre><p>然后点击左侧“Connection”-&gt;“SSH”-&gt;“Tunnels”，输入一个端口号，比如：9999；选择Dynamic，然后点击Add。<br>再点击Open登陆主机。<br>    浏览器中设置代理。FireFox，Options-&gt;Manual Proxy configuration-&gt;Socks Host:127.0.0.1 、Port : 9999、<br>Socks v5、Proxy DNS when using Socks v5。</p>
+<pre><code>这样设置完成。
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/02/03/putty-as-proxy/" data-id="cjego8tbk000resrkw0rfn2wg" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmd/">cmd</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-Hello-first-blog" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/02/02/Hello-first-blog/" class="article-date">
@@ -98,7 +149,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/02/Hello-first-blog/" data-id="cjefiajt2000018rku6u8jhyq" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/02/Hello-first-blog/" data-id="cjego8taj0000esrkrdb0dnfb" class="article-share-link">分享</a>
       
       
       
@@ -149,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/02/hello-world/" data-id="cjefiajuu001218rkubpg74k6" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/02/hello-world/" data-id="cjego8tb9000fesrkwsnlpoud" class="article-share-link">分享</a>
       
       
       
@@ -187,7 +238,11 @@
       <ul>
         
           <li>
-            <a href="/2018/03/06/config-tomcat-manager/">config_tomcat_manager</a>
+            <a href="/2018/03/07/dotnet-custom-attribute/">.NET下custom attribute简单应用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/06/config-tomcat-manager/">配置tomcat的manager</a>
           </li>
         
           <li>
@@ -200,10 +255,6 @@
         
           <li>
             <a href="/2018/03/04/linux-java-install/">linux环境下安装java</a>
-          </li>
-        
-          <li>
-            <a href="/2018/03/01/apache2-config-ftpd/">apache2配置ftp server(mod_ftp)</a>
           </li>
         
       </ul>

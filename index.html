@@ -66,6 +66,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-dotnet-custom-attribute" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/07/dotnet-custom-attribute/" class="article-date">
+  <time datetime="2018-03-07T05:14:29.000Z" itemprop="datePublished">2018-03-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/net/">.net</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/07/dotnet-custom-attribute/">.NET下custom attribute简单应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>Attribute（中文翻译为“特性”）是一种可由用户自有定义的修饰符（Modifier），可以用来修饰各种需要被修饰的目标；简单地说，Attribute就是一种“附着物”，它附着在被修饰的目标上。Attribute可以用来修饰Assemble、Class、Method、property和field（类的成员变量，包括私有变量），这些附着物的作用是为它们的附着体追加上一些额外的信息（这些信息保存在附着物的体内）。<br>为了与property（属性）区分开，Attribute（中文翻译为“特性”）。.NET平台提供了很多Attribute，比如：ObsoleteAttribute（表示被修饰对象已经过时）、NonSerializedAttribute（表示在序列化是，修饰的Field不被保存）、DefaultValueAttribute（指定属性的默认值）等等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Property)]</span><br><span class="line">class SimpleDescriptionAttribute : Attribute</span><br><span class="line">&#123;</span><br><span class="line">    private string description;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The default constructor.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public SimpleDescriptionAttribute() : base() &#123; &#125;</span><br><span class="line"></span><br><span class="line">    public SimpleDescriptionAttribute(string desc)</span><br><span class="line">    &#123;</span><br><span class="line">        description = desc;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public string Descripton</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return description;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码定义了一个简单的Attribute，有一个属性Description。这个Attribute可以用在Class、Method和Property上，下面的代码展示了如何使用这个Attribute：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Type type = typeof(Program);</span><br><span class="line"></span><br><span class="line">// Iterate through all the methods of the class.</span><br><span class="line">foreach (MethodInfo mInfo in type.GetMethods())</span><br><span class="line">&#123;</span><br><span class="line">    // Iterate through all the Attributes for each method.</span><br><span class="line">    foreach (Attribute attr in Attribute.GetCustomAttributes(mInfo))</span><br><span class="line">    &#123;</span><br><span class="line">        // Check for the AnimalType attribute.</span><br><span class="line">        if (attr.GetType() == typeof(SimpleDescriptionAttribute))</span><br><span class="line">            Console.WriteLine( String.Format(</span><br><span class="line">                &quot;Method &#123;0&#125; has a &#123;1&#125; attribute.&quot;,</span><br><span class="line">                mInfo.Name, ((SimpleDescriptionAttribute)attr).Descripton));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foreach (PropertyInfo pInfo in type.GetProperties())</span><br><span class="line">&#123;</span><br><span class="line">    foreach (Attribute attr in Attribute.GetCustomAttributes(pInfo))</span><br><span class="line">    &#123;</span><br><span class="line">        //</span><br><span class="line">        if (attr.GetType() == typeof(SimpleDescriptionAttribute))</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(String.Format(&quot;Property &#123;0&#125; has a &#123;1&#125; attribute.&quot;,</span><br><span class="line">                pInfo.Name, ((SimpleDescriptionAttribute)attr).Descripton));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="https://msdn.microsoft.com/en-us/library/e8kc3626(d=hv.2,v=vs.110" target="_blank" rel="noopener">MSDN</a>.aspx)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/07/dotnet-custom-attribute/" data-id="cjego8taw0004esrkphytg7gv" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">.net</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-config-tomcat-manager" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/03/06/config-tomcat-manager/" class="article-date">
@@ -84,7 +135,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/06/config-tomcat-manager/">config_tomcat_manager</a>
+      <a class="article-title" href="/2018/03/06/config-tomcat-manager/">配置tomcat的manager</a>
     </h1>
   
 
@@ -109,7 +160,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/06/config-tomcat-manager/" data-id="cjefiajt6000118rkonh0ktof" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/06/config-tomcat-manager/" data-id="cjego8tao0001esrkhkt1pdc3" class="article-share-link">分享</a>
       
       
       
@@ -164,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/04/install-tomcat/" data-id="cjefiajte000618rkn9rp1a40" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/04/install-tomcat/" data-id="cjego8tb7000eesrku4fm2ycf" class="article-share-link">分享</a>
       
       
       
@@ -256,7 +307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/04/mysql-reset-password/" data-id="cjefiajv4001e18rkv844585g" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/04/mysql-reset-password/" data-id="cjego8tbh000pesrks9r7trrw" class="article-share-link">分享</a>
       
       
       
@@ -318,7 +369,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/04/linux-java-install/" data-id="cjefiajux001418rkbr60kcgd" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/04/linux-java-install/" data-id="cjego8tbf000lesrk4ma4igqx" class="article-share-link">分享</a>
       
       
       
@@ -390,7 +441,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cjefiajtc000418rksl9zdrwr" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/01/apache2-config-ftpd/" data-id="cjego8tay0005esrkcsgi84a5" class="article-share-link">分享</a>
       
       
       
@@ -438,7 +489,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/17/pscp-copy-files-from-to-server/" data-id="cjefiajv0001718rkw1sk4kky" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/17/pscp-copy-files-from-to-server/" data-id="cjego8tbd000jesrku5vmwe1u" class="article-share-link">分享</a>
       
       
       
@@ -495,7 +546,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cjefiajus001118rkfct92lkb" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/09/debian-apache-ssl/" data-id="cjego8tb3000aesrkj4xuii4t" class="article-share-link">分享</a>
       
       
       
@@ -545,7 +596,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cjefiajtd000518rk5e6blnk1" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cjego8tb5000besrk1dd8pdn5" class="article-share-link">分享</a>
       
       
       
@@ -603,62 +654,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cjefiajuy001518rklo0t9ld4" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/06/install-mysql-php/" data-id="cjego8taz0006esrkbbdn1iut" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LAMP/">LAMP</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-putty-as-proxy" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/02/03/putty-as-proxy/" class="article-date">
-  <time datetime="2018-02-03T13:43:34.000Z" itemprop="datePublished">2018-02-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/linux/">linux</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/03/putty-as-proxy/">把PuTTY当作Proxy</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <pre><code>今天注册了Google Cloud，有了一台Google Cloud的虚拟机。这台机器是在墙外面的，而且可以用PuTTY直接登陆上去。
-</code></pre><p>本来想用这台机器直接作为一个代理，装了Apache2，研究了一下发现用Apache做代理还是要花一番功夫的。<br>    手册上看，要启用Apache2的mod_proxy，需要先配置mod_ssl，mod_ssl又依赖openssl。也涉及到公钥/私钥的配置，<br>想一想感觉比较麻烦。PuTTY我已经配置好了公钥/私钥。网上找了一下PuTTY支持SSH远程登录的主机可以实现socks5代理<br>服务器的功能，而且配置也还方便。缺点就是不能保存。</p>
-<pre><code>下面是配置PuTTy。打开PuTTy,点击“Session”（打开默认就是此界面），输入要链接的地址、端口。
-</code></pre><p>然后点击左侧“Connection”-&gt;“SSH”-&gt;“Tunnels”，输入一个端口号，比如：9999；选择Dynamic，然后点击Add。<br>再点击Open登陆主机。<br>    浏览器中设置代理。FireFox，Options-&gt;Manual Proxy configuration-&gt;Socks Host:127.0.0.1 、Port : 9999、<br>Socks v5、Proxy DNS when using Socks v5。</p>
-<pre><code>这样设置完成。
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/03/putty-as-proxy/" data-id="cjefiajv3001c18rkup51sq0i" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmd/">cmd</a></li></ul>
 
     </footer>
   </div>
@@ -702,7 +702,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/">technique</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/net/">.net</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/LAMP/">LAMP</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/html/">html</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/linux/">linux</a><span class="category-list-count">2</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/">technique</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/technique/net/">.net</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/LAMP/">LAMP</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/html/">html</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technique/linux/">linux</a><span class="category-list-count">2</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -712,7 +712,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/net/" style="font-size: 14px;">.net</a> <a href="/tags/LAMP/" style="font-size: 19.5px;">LAMP</a> <a href="/tags/apache/" style="font-size: 25px;">apache</a> <a href="/tags/cmd/" style="font-size: 19.5px;">cmd</a> <a href="/tags/mysql/" style="font-size: 14px;">mysql</a> <a href="/tags/setup/" style="font-size: 14px;">setup</a> <a href="/tags/test/" style="font-size: 14px;">test</a> <a href="/tags/tomcat/" style="font-size: 19.5px;">tomcat</a>
+      <a href="/tags/net/" style="font-size: 19.5px;">.net</a> <a href="/tags/LAMP/" style="font-size: 19.5px;">LAMP</a> <a href="/tags/apache/" style="font-size: 25px;">apache</a> <a href="/tags/cmd/" style="font-size: 19.5px;">cmd</a> <a href="/tags/mysql/" style="font-size: 14px;">mysql</a> <a href="/tags/setup/" style="font-size: 14px;">setup</a> <a href="/tags/test/" style="font-size: 14px;">test</a> <a href="/tags/tomcat/" style="font-size: 19.5px;">tomcat</a>
     </div>
   </div>
 
@@ -724,7 +724,11 @@
       <ul>
         
           <li>
-            <a href="/2018/03/06/config-tomcat-manager/">config_tomcat_manager</a>
+            <a href="/2018/03/07/dotnet-custom-attribute/">.NET下custom attribute简单应用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/06/config-tomcat-manager/">配置tomcat的manager</a>
           </li>
         
           <li>
@@ -739,10 +743,6 @@
             <a href="/2018/03/04/linux-java-install/">linux环境下安装java</a>
           </li>
         
-          <li>
-            <a href="/2018/03/01/apache2-config-ftpd/">apache2配置ftp server(mod_ftp)</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -752,7 +752,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">7</span></li></ul>
     </div>
   </div>
 
