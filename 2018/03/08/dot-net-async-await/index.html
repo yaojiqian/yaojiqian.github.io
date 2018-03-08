@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>接触.net async/await | Yao Jiqian&#39;s Diary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="C# 5.0 引入的 async/await。 排除多线程的情况，程序在正常执行过程中的函数调用都是顺序执行的，在前一个函数调用结束之前，后面的函数不会被执行，这经常一起应用程序的阻塞，尤其是在调用I/O操作或者大规模计算任务时，应用会没有相应。 MSDN中提到：  异步对可能起阻止作用的活动（例如，应用程序访问 Web 时）至关重要。 对 Web 资源的访问有时很慢或会延迟。 如果此类活动在同步">
+<meta name="keywords" content=".net">
+<meta property="og:type" content="article">
+<meta property="og:title" content="接触.net async&#x2F;await">
+<meta property="og:url" content="http://yoursite.com/2018/03/08/dot-net-async-await/index.html">
+<meta property="og:site_name" content="Yao Jiqian&#39;s Diary">
+<meta property="og:description" content="C# 5.0 引入的 async/await。 排除多线程的情况，程序在正常执行过程中的函数调用都是顺序执行的，在前一个函数调用结束之前，后面的函数不会被执行，这经常一起应用程序的阻塞，尤其是在调用I/O操作或者大规模计算任务时，应用会没有相应。 MSDN中提到：  异步对可能起阻止作用的活动（例如，应用程序访问 Web 时）至关重要。 对 Web 资源的访问有时很慢或会延迟。 如果此类活动在同步">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-08T06:10:13.533Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="接触.net async&#x2F;await">
+<meta name="twitter:description" content="C# 5.0 引入的 async/await。 排除多线程的情况，程序在正常执行过程中的函数调用都是顺序执行的，在前一个函数调用结束之前，后面的函数不会被执行，这经常一起应用程序的阻塞，尤其是在调用I/O操作或者大规模计算任务时，应用会没有相应。 MSDN中提到：  异步对可能起阻止作用的活动（例如，应用程序访问 Web 时）至关重要。 对 Web 资源的访问有时很慢或会延迟。 如果此类活动在同步">
+  
+    <link rel="alternate" href="/atom.xml" title="Yao Jiqian&#39;s Diary" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yao Jiqian&#39;s Diary</a>
+      </h1>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dot-net-async-await" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/08/dot-net-async-await/" class="article-date">
+  <time datetime="2018-03-08T05:26:04.000Z" itemprop="datePublished">2018-03-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/net/">.net</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      接触.net async/await
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>C# 5.0 引入的 async/await。</p>
+<p>排除多线程的情况，程序在正常执行过程中的函数调用都是顺序执行的，在前一个函数调用结束之前，后面的函数不会被执行，这经常一起应用程序的阻塞，尤其是在调用I/O操作或者大规模计算任务时，应用会没有相应。</p>
+<p>MSDN中提到：</p>
+<blockquote>
+<p>异步对可能起阻止作用的活动（例如，应用程序访问 Web 时）至关重要。 对 Web 资源的访问有时很慢或会延迟。 如果此类活动在同步过程中受阻，则整个应用程序必须等待。 在异步过程中，应用程序可继续执行不依赖 Web 资源的其他工作，直至潜在阻止任务完成。</p>
+</blockquote>
+<p>C# 中的 async 和 await 关键字是异步编程的核心，通过使用这两个关键字，你可以使用 .NET framework 或 Windows 运行时中的资源轻松创建异步方法（几乎与创建同步方法一样轻松）。 通过使用被称为异步方法的 async 和 await 定义的异步方法。</p>
+<p>下面是一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    private readonly HttpClient _httpClient = new HttpClient();</span><br><span class="line">    private ILog logger = log4net.LogManager.GetLogger(&quot;Program&quot;);</span><br><span class="line"></span><br><span class="line">    private async void asyncDownload()</span><br><span class="line">    &#123;</span><br><span class="line">        logger.Debug(&quot;Enter asyncDownload.&quot;);</span><br><span class="line">        var pstr = await _httpClient.GetStringAsync(&quot;http://www.dotnetfoundation.org&quot;);</span><br><span class="line"></span><br><span class="line">        logger.Debug(&quot;pstr&apos;s length: &quot; + pstr.Length);</span><br><span class="line"></span><br><span class="line">        logger.Debug(&quot;Exit asyncDownload.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private async Task&lt;string&gt; GetResult()</span><br><span class="line">    &#123;</span><br><span class="line">        logger.Debug(&quot;Enter GetResult.&quot;);</span><br><span class="line">        string result = await WaitAsynchronouslyAsync();</span><br><span class="line"></span><br><span class="line">        logger.Debug(&quot;Exit GetResult.&quot;);</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public async Task&lt;string&gt; WaitAsynchronouslyAsync()</span><br><span class="line">    &#123;</span><br><span class="line">        logger.Debug(&quot;Enter WaitAsynchronouslyAsync&quot;);</span><br><span class="line">        await Task.Delay(10000);</span><br><span class="line"></span><br><span class="line">        logger.Debug(&quot;Exit WaitAsynchronouslyAsync&quot;);</span><br><span class="line">        return &quot;Async Finished&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public async Task&lt;string&gt; WaitSynchronously()</span><br><span class="line">    &#123;</span><br><span class="line">        logger.Debug(&quot;Enter WaitSynchronously&quot;);</span><br><span class="line">        // Add a using directive for System.Threading.</span><br><span class="line">        Thread.Sleep(1000);</span><br><span class="line"></span><br><span class="line">        logger.Debug(&quot;Exit WaitSynchronously&quot;);</span><br><span class="line">        return &quot;Finished&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        Program a = new Program();</span><br><span class="line"></span><br><span class="line">        a.logger.Debug(&quot;Before call asyncDownload&quot;);</span><br><span class="line">        a.asyncDownload();</span><br><span class="line">        a.logger.Debug(&quot;After call asyncDownload&quot;);</span><br><span class="line"></span><br><span class="line">        a.logger.Debug(&quot;call WaitAsynchronouslyAsync&quot;);</span><br><span class="line">        Task&lt;string&gt; aR = a.WaitAsynchronouslyAsync();</span><br><span class="line"></span><br><span class="line">        a.logger.Debug(&quot;call WaitSynchronously&quot;);</span><br><span class="line">        Task&lt;string&gt; a2 = a.WaitSynchronously();</span><br><span class="line">        a.logger.Debug(&quot;WaitSynchorously return: &quot; + a2.Result);</span><br><span class="line">        a.logger.Debug(&quot;WaitAsynchorouslyAsync return: &quot; + aR.Result);</span><br><span class="line"></span><br><span class="line">        Console.ReadKey();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>程序输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">2018-03-07 16:50:10,496 67         [7     ] DEBUG Program - Before call asyncDownload</span><br><span class="line">2018-03-07 16:50:10,522 93         [7     ] DEBUG Program - Enter asyncDownload.</span><br><span class="line">2018-03-07 16:50:10,554 124        [7     ] DEBUG Program - After call asyncDownload</span><br><span class="line">2018-03-07 16:50:10,555 125        [7     ] DEBUG Program - call WaitAsynchronouslyAsync</span><br><span class="line">2018-03-07 16:50:10,556 126        [7     ] DEBUG Program - Enter WaitAsynchronouslyAsync</span><br><span class="line">2018-03-07 16:50:10,558 128        [7     ] DEBUG Program - call WaitSynchronously</span><br><span class="line">2018-03-07 16:50:10,559 129        [7     ] DEBUG Program - Enter WaitSynchronously</span><br><span class="line">2018-03-07 16:50:11,384 954        [14    ] DEBUG Program - pstr&apos;s length: 56692</span><br><span class="line">2018-03-07 16:50:11,385 955        [14    ] DEBUG Program - Exit asyncDownload.</span><br><span class="line">2018-03-07 16:50:11,560 1130       [7     ] DEBUG Program - Exit WaitSynchronously</span><br><span class="line">2018-03-07 16:50:11,560 1130       [7     ] DEBUG Program - WaitSynchorously return: Finished</span><br><span class="line">2018-03-07 16:50:20,558 10129      [10    ] DEBUG Program - Exit WaitAsynchronouslyAsync</span><br><span class="line">2018-03-07 16:50:20,558 10129      [7     ] DEBUG Program - WaitAsynchorouslyAsync return: Async Finished</span><br></pre></td></tr></table></figure></p>
+<p>从输出结果可以看到，程序调用asyncDownload，进入asyncDownload方法，然后就在调用 <strong>await _httpClient.GetStringAsync(“<a href="http://www.dotnetfoundation.org" target="_blank" rel="noopener">http://www.dotnetfoundation.org</a>“);</strong> 的时候就返回，GetStringAsync会继续在后台执行。主程序也是会继续执行call asyncDownload方法后的语句。当GetStringAsync执行完成之后，程序会返回到asyncDownload方法中的GetStringAsync之后的语句继续执行。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/08/dot-net-async-await/" data-id="cjei45c0j0005igrk6nd5nhpv" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">.net</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/07/dotnet-custom-attribute/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">.NET下custom attribute简单应用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/08/dot-net-async-await/">接触.net async/await</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/07/dotnet-custom-attribute/">.NET下custom attribute简单应用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/06/config-tomcat-manager/">配置tomcat的manager</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/04/install-tomcat/">安装tomcat</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/04/mysql-reset-password/">重置mysql的登录密码</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 Yao Jiqian&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;yaojiqian@hotmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>
