@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>给一个弱名.net assembly加上签名 | Yao Jiqian&#39;s Diary</title>
+  <title>vim设置tab值 | Yao Jiqian&#39;s Diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content=".net的solution中，所有的project都是签过名的，是强名assembly。但是，需要引用到外部的已经编译好的assembly，这个assembly又是没有经过签名的，是一个弱名assembly。这样编译就会出错。 解决办法：就是使用ildasm工具先把需要引用的add反编译成il（.net中间语言）。然后使用sn工具生成一个签名文件，最后再用ilasm工具把签名文件和之前的il文">
-<meta name="keywords" content=".net">
+  <meta name="description" content="在当前用户目录下，新建一个‘.vimrc’文件，输入下面内容： set autoindent “ 自动缩进set smartindent “ 智能缩进set tabstop=4 “ tab 为 4 个空格set shiftwidth=4 “ 设置行号set smarttab “ 智能 tabset softtabstop=4 “">
+<meta name="keywords" content="cmd">
 <meta property="og:type" content="article">
-<meta property="og:title" content="给一个弱名.net assembly加上签名">
-<meta property="og:url" content="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/index.html">
+<meta property="og:title" content="vim设置tab值">
+<meta property="og:url" content="http://yoursite.com/2018/03/12/vim-tab-setting/index.html">
 <meta property="og:site_name" content="Yao Jiqian&#39;s Diary">
-<meta property="og:description" content=".net的solution中，所有的project都是签过名的，是强名assembly。但是，需要引用到外部的已经编译好的assembly，这个assembly又是没有经过签名的，是一个弱名assembly。这样编译就会出错。 解决办法：就是使用ildasm工具先把需要引用的add反编译成il（.net中间语言）。然后使用sn工具生成一个签名文件，最后再用ilasm工具把签名文件和之前的il文">
+<meta property="og:description" content="在当前用户目录下，新建一个‘.vimrc’文件，输入下面内容： set autoindent “ 自动缩进set smartindent “ 智能缩进set tabstop=4 “ tab 为 4 个空格set shiftwidth=4 “ 设置行号set smarttab “ 智能 tabset softtabstop=4 “">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-07T21:19:57.478Z">
+<meta property="og:updated_time" content="2018-03-12T15:03:39.147Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="给一个弱名.net assembly加上签名">
-<meta name="twitter:description" content=".net的solution中，所有的project都是签过名的，是强名assembly。但是，需要引用到外部的已经编译好的assembly，这个assembly又是没有经过签名的，是一个弱名assembly。这样编译就会出错。 解决办法：就是使用ildasm工具先把需要引用的add反编译成il（.net中间语言）。然后使用sn工具生成一个签名文件，最后再用ilasm工具把签名文件和之前的il文">
+<meta name="twitter:title" content="vim设置tab值">
+<meta name="twitter:description" content="在当前用户目录下，新建一个‘.vimrc’文件，输入下面内容： set autoindent “ 自动缩进set smartindent “ 智能缩进set tabstop=4 “ tab 为 4 个空格set shiftwidth=4 “ 设置行号set smarttab “ 智能 tabset softtabstop=4 “">
   
     <link rel="alternate" href="/atom.xml" title="Yao Jiqian&#39;s Diary" type="application/atom+xml">
   
@@ -69,14 +69,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-add-sign-to-a-assemble" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vim-tab-setting" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/02/07/add-sign-to-a-assemble/" class="article-date">
-  <time datetime="2018-02-07T14:10:09.000Z" itemprop="datePublished">2018-02-07</time>
+    <a href="/2018/03/12/vim-tab-setting/" class="article-date">
+  <time datetime="2018-03-12T15:00:48.000Z" itemprop="datePublished">2018-03-12</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/net/">.net</a>
+    <a class="article-category-link" href="/categories/technique/">technique</a>►<a class="article-category-link" href="/categories/technique/linux/">linux</a>
   </div>
 
   </div>
@@ -87,7 +87,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      给一个弱名.net assembly加上签名
+      vim设置tab值
     </h1>
   
 
@@ -97,19 +97,17 @@
       
         <!-- Table of Contents -->
         
-        <p>  .net的solution中，所有的project都是签过名的，是强名assembly。但是，需要引用到外<br>部的已经编译好的assembly，这个assembly又是没有经过签名的，是一个弱名assembly。<br>这样编译就会出错。</p>
-<p>解决办法：就是使用<strong>ildasm</strong>工具先把需要引用的add反编译成il（.net中间语言）。然后使用<strong>sn</strong>工具<br>生成一个签名文件，最后再用<strong>ilasm</strong>工具把签名文件和之前的il文件重新编译成一个assembly。</p>
-<p>例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ildasm /all /out=test.il test.dll</span><br><span class="line">sn -k test.snk</span><br><span class="line">ilasm /dll /key=test.snk test.il</span><br></pre></td></tr></table></figure>
+        <p>在当前用户目录下，新建一个‘.vimrc’文件，输入下面内容：</p>
+<p>set autoindent “ 自动缩进<br>set smartindent “ 智能缩进<br>set tabstop=4 “ tab 为 4 个空格<br>set shiftwidth=4 “ 设置行号<br>set smarttab “ 智能 tab<br>set softtabstop=4 “</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/07/add-sign-to-a-assemble/" data-id="cjeocyqnz00001wrks21jzahq" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/12/vim-tab-setting/" data-id="cjeocyqou000p1wrkfbioi4cj" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">.net</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmd/">cmd</a></li></ul>
 
     </footer>
   </div>
@@ -159,19 +157,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/02/09/debian-apache-ssl/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          Debian下给apache2配置ssl
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/02/06/install-mysql-php/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/03/08/dot-net-async-await/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">在Debian上安装mysql和php5</div>
+      <div class="article-nav-title">接触.net async/await</div>
     </a>
   
 </nav>
